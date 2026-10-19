@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refactor Missions — Brutal Merch</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800;900&display=swap">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --font-sans: Roboto, ui-sans-serif, system-ui, sans-serif;
+            --color-brand: #e74c3c;
+            --color-paper: #f5f0e6;
+            --shadow-brutal: 6px 6px 0 #000;
+            --shadow-brutal-sm: 3px 3px 0 #000;
+        }
+    </style>
+</head>
+
+<!--
+    This page is plain JavaScript on purpose.
+    It renders a list from an array with a for-loop and innerHTML.
+    After the last session, come back and rebuild it in Vue (Mission 10.4).
+-->
+<body class="min-h-screen bg-paper text-black font-sans">
+
+    <header class="bg-brand border-b-4 border-black">
+        <div class="max-w-4xl mx-auto px-6 py-12">
+            <p class="inline-block bg-black text-white text-xs font-extrabold uppercase tracking-widest px-3 py-1 mb-4">Vue Mastery · Vite / SPA track</p>
+            <h1 class="text-4xl sm:text-5xl font-black uppercase leading-none text-white">Refactor Missions</h1>
+            <p class="mt-4 max-w-xl text-lg font-bold text-white">
+                Turn <span class="bg-black px-1">index.html</span> (one big file) into a real Vue app. One session, one set of missions. Tick them off as you go.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 py-10">
+
+        <!-- PROGRESS -->
+        <section class="bg-white border-4 border-black shadow-brutal p-5">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+                <p class="text-sm font-extrabold uppercase">Progress: <span id="progress-text">0 / 0</span></p>
+                <button id="reset" class="border-2 border-black bg-white px-3 py-1 text-xs font-extrabold uppercase cursor-pointer hover:bg-brand hover:text-white">Reset all</button>
+            </div>
+            <div class="mt-3 h-6 border-4 border-black bg-white">
+                <div id="progress-bar" class="h-full bg-brand" style="width: 0%"></div>
+            </div>
+        </section>
+
+        <!-- RULES -->
+        <section class="mt-8 bg-black text-white border-4 border-black shadow-[6px_6px_0_#e74c3c] p-5">
+            <h2 class="text-sm font-black uppercase tracking-widest text-brand">House rules</h2>
+            <ul class="mt-3 space-y-2 text-sm font-bold">
+                <li>1. Use the <span class="bg-white text-black px-1">Options API</span>. No <span class="bg-white text-black px-1">&lt;script setup&gt;</span>.</li>
+                <li>2. After every mission the page must <span class="bg-white text-black px-1">look and work the same</span> as before. Refactor does not mean redesign.</li>
+                <li>3. Save a git commit after every mission. If you break it, go back.</li>
+                <li>4. Split by <span class="bg-white text-black px-1">job and name</span>, not by tag. No good name? Do not split.</li>
+            </ul>
+        </section>
+
+        <!-- MISSIONS (rendered by the script below) -->
+        <div id="sessions" class="mt-10 space-y-10"></div>
+
+    </main>
+
+    <footer class="bg-black text-white text-center text-xs font-bold uppercase tracking-widest py-3">
+        Brutal Merch · TFD Vue Mastery
+    </footer>
+
+    <script>
+        // Each mission: id, title, task (what to do), done (how you know it works), from (monolith section)
+        const sessions = [
+            {
+                no: 1,
+                title: "Bootstrapping with Vite",
+                missions: [
+                    { id: "1.1", title: "Create the project", from: "—",
+                      task: "Run npm create vue@latest, install Tailwind, and copy the @theme block from index.html into main.css.",
+                      done: "A <div class=\"bg-brand shadow-brutal\"> shows a red box with a hard shadow." },
+                    { id: "1.2", title: "Move everything into App.vue", from: "All sections",
+                      task: "Copy the whole body into one big <template> with one root <div>. Keep products.json for later.",
+                      done: "The page looks the same as index.html. All 8 cards are still copy-pasted." },
+                    { id: "1.3", title: "Split the static parts", from: "1, 2, 3, 10",
+                      task: "Create AppHeader (announcement + navbar), HeroBanner and AppFooter. Register them in App.vue.",
+                      done: "App.vue is only a layout: a few component tags. Nothing is lost." },
+                ],
+            },
+            {
+                no: 2,
+                title: "Components & Props",
+                missions: [
+                    { id: "2.1", title: "One ProductCard, many products", from: "5",
+                      task: "Move the 8 product objects into data() in App.vue. Make ProductCard.vue. Use v-for with :key to render all cards.",
+                      done: "8 copy-pasted <article> blocks are now 1 component and 1 loop." },
+                    { id: "2.2", title: "Pass data with props", from: "5",
+                      task: "Give ProductCard props for name, category, price, oldPrice, soldOut. Then change to ONE prop called product.",
+                      done: "The card has no hard-coded text. It shows whatever product you pass." },
+                    { id: "2.3", title: "Props drive the look", from: "5",
+                      task: "Use v-if for the SALE and SOLD OUT badges. Use :class with an object for the color block (Stickers red, Apparel black, Desk white). Use :disabled for the Add button.",
+                      done: "Change one value in data() and the card changes by itself." },
+                    { id: "2.4", title: "Loop the small boxes", from: "3b, 7, 8, 6a",
+                      task: "Make StatBox, PerkCard, FaqItem and CartRow. Each gets its data from an array and a v-for.",
+                      done: "No repeated blocks left in these 4 sections." },
+                    { id: "2.5", title: "Nested loop in the footer", from: "10",
+                      task: "Make FooterColumn with props title and links. The footer loops over columns, and each column loops over its links.",
+                      done: "Adding a link means adding one line of data, no HTML." },
+                    { id: "2.6", title: "Validate props", from: "—",
+                      task: "Write props as an object with type, required and default (for example oldPrice defaults to null).",
+                      done: "Passing a wrong type prints a warning in the Console." },
+                ],
+            },
+            {
+                no: 3,
+                title: "Emits, v-model & Slots",
+                missions: [
+                    { id: "3.1", title: "Add to cart with emit", from: "5, 6",
+                      task: "ProductCard emits add with its product. The parent pushes it into a cart array in data().",
+                      done: "Clicking Add changes the cart in App.vue. The card never touches the cart itself." },
+                    { id: "3.2", title: "Save and remove", from: "5, 6a",
+                      task: "ProductCard emits toggle-save. CartRow emits remove. Keep savedIds and cart in the parent.",
+                      done: "Saved cards look inverted. Remove deletes the right row." },
+                    { id: "3.3", title: "CategoryFilter", from: "4b",
+                      task: "Make CategoryFilter. It loops over category names, gets the active one as a prop, and emits select.",
+                      done: "The active button is black. The others are white." },
+                    { id: "3.4", title: "SearchInput with v-model", from: "4",
+                      task: "Make a component that works with v-model: prop modelValue and emit update:modelValue.",
+                      done: "<SearchInput v-model=\"search\" /> keeps search in the parent in sync." },
+                    { id: "3.5", title: "NewsletterForm", from: "9",
+                      task: "Own the email in the component. On submit, emit subscribe with the email and clear the input.",
+                      done: "The parent can show a thank-you message." },
+                    { id: "3.6", title: "BrutalCard with a slot", from: "6, 7, 8",
+                      task: "Make BrutalCard (border, shadow, white background) with a default slot. Use it for the cart box, perks and FAQ. Add a SectionHeading with a slot for the title.",
+                      done: "The classes border-4 border-black shadow-brutal appear in one file only." },
+                ],
+            },
+            {
+                no: 4,
+                title: "Computed, Watch & Lifecycle",
+                missions: [
+                    { id: "4.1", title: "Computed list", from: "4, 5",
+                      task: "Make a computed visibleProducts that filters by category and search text.",
+                      done: "\"Showing X of Y products\" is correct. No filtering code inside the template." },
+                    { id: "4.2", title: "Empty states", from: "5b, 6b",
+                      task: "Use v-if / v-else for the two hidden empty-state messages.",
+                      done: "Search for xyz and the message appears. Clear the cart and the cart message appears." },
+                    { id: "4.3", title: "Cart numbers", from: "2, 6",
+                      task: "Computed cartCount and cartTotal. Group the same product into one row with a quantity.",
+                      done: "The navbar badge and the total update with every Add and Remove." },
+                    { id: "4.4", title: "Save the cart", from: "6",
+                      task: "Use a deep watch on cart to save it in localStorage. Load it in mounted() (or created()). Put the localStorage code in src/utils/storage.js.",
+                      done: "Refresh the page and the cart is still there." },
+                ],
+            },
+            {
+                no: 5,
+                title: "Fetching Data",
+                missions: [
+                    { id: "5.1", title: "Load products from a file", from: "5",
+                      task: "Copy products.json into public/. Fetch /products.json in mounted() and store the result in data().",
+                      done: "The shop now shows 12 products, not 8." },
+                    { id: "5.2", title: "Loading state", from: "5",
+                      task: "Add loading in data(). Show 8 grey placeholder cards (a SkeletonCard component) while it is true.",
+                      done: "Throttle the network in DevTools and you see the placeholders." },
+                    { id: "5.3", title: "Error state with retry", from: "5",
+                      task: "Add error in data(). Use try / catch. Show an error box with a Retry button.",
+                      done: "Rename the file on purpose. The error box appears. Retry works after you fix it." },
+                    { id: "5.4", title: "Numbers from data", from: "3b",
+                      task: "The \"12 products\" stat should come from products.length, not from text.",
+                      done: "No hard-coded product count left in the app." },
+                ],
+            },
+            {
+                no: 6,
+                title: "Vue Router",
+                missions: [
+                    { id: "6.1", title: "Pages", from: "1–10",
+                      task: "Install vue-router. Make HomeView (hero + shop), CartView and AboutView (perks + FAQ).",
+                      done: "/, /cart and /about each show the right sections." },
+                    { id: "6.2", title: "Navbar links", from: "2",
+                      task: "Replace <a href> with <RouterLink>. Style the active link black with the active class.",
+                      done: "The page does not reload when you click. The current link is black." },
+                    { id: "6.3", title: "Product detail page", from: "5",
+                      task: "Add /products/:id. Read this.$route.params.id, find the product, and show a big detail view. Make each card name a link.",
+                      done: "Refresh on /products/3 and the Git Push Mug page still loads." },
+                    { id: "6.4", title: "404 page", from: "—",
+                      task: "Add a catch-all route that shows a brutal \"404 — Page not found\".",
+                      done: "/banana shows the 404 page with a link back home." },
+                    { id: "6.5", title: "Feel the pain", from: "2, 6",
+                      task: "The navbar badge and CartView both need the cart. Pass it down with props and events through RouterView. Write down how many files you touched.",
+                      done: "You can explain why this is annoying. This is exactly why Pinia exists." },
+                ],
+            },
+            {
+                no: 7,
+                title: "API Service Layer & CRUD",
+                missions: [
+                    { id: "7.1", title: "One file for requests", from: "5",
+                      task: "Create src/services/api.js with getProducts, getProduct and createOrder. Components never call fetch directly.",
+                      done: "Search the project: fetch( appears only in api.js." },
+                    { id: "7.2", title: "Environment variable", from: "—",
+                      task: "Put the base URL in .env as VITE_API_URL. Read it with import.meta.env.",
+                      done: "Change the URL in one place and the whole app follows." },
+                    { id: "7.3", title: "Real backend", from: "5",
+                      task: "Point the service at your Express API (or json-server) instead of products.json.",
+                      done: "Products come from the server. Loading and error states still work." },
+                    { id: "7.4", title: "Checkout request", from: "6",
+                      task: "Checkout sends POST /orders with the cart. Show success or error. Clear the cart on success.",
+                      done: "A new order appears on the server." },
+                ],
+            },
+            {
+                no: 8,
+                title: "Pinia",
+                missions: [
+                    { id: "8.1", title: "Cart store", from: "6",
+                      task: "Create useCartStore: state items, getters count and total, actions add, remove, clear.",
+                      done: "ProductCard, navbar and CartView read the same cart. No cart props left." },
+                    { id: "8.2", title: "Products store", from: "5",
+                      task: "Move products, loading, error and fetchProducts into useProductsStore.",
+                      done: "HomeView and ProductDetailView share one list. No double fetch." },
+                    { id: "8.3", title: "Saved store", from: "5",
+                      task: "Create a store for saved product ids and a /saved page.",
+                      done: "The Save button works on every page." },
+                    { id: "8.4", title: "Persist", from: "6",
+                      task: "Save the cart with store.$subscribe. Delete the old watch from Session 4.",
+                      done: "The cart survives a refresh. App.vue has less code than before." },
+                ],
+            },
+            {
+                no: 9,
+                title: "Auth on the Frontend",
+                missions: [
+                    { id: "9.1", title: "Login page", from: "9",
+                      task: "Make LoginView from the newsletter form idea: email, password, error message.",
+                      done: "A wrong password shows an error. A right one redirects home." },
+                    { id: "9.2", title: "Auth store", from: "2",
+                      task: "useAuthStore keeps user and token, saved in localStorage. Add login and logout actions.",
+                      done: "The navbar shows the user name and a Logout button." },
+                    { id: "9.3", title: "Route guard", from: "6",
+                      task: "Protect /checkout with a navigation guard. Send guests to /login, then back after login.",
+                      done: "A logged-out user cannot open /checkout." },
+                    { id: "9.4", title: "Send the token", from: "—",
+                      task: "api.js adds the Authorization header. On a 401, log out and redirect.",
+                      done: "Orders belong to the logged-in user." },
+                ],
+            },
+            {
+                no: 10,
+                title: "Capstone, Build & Deploy",
+                missions: [
+                    { id: "10.1", title: "Folder review", from: "—",
+                      task: "Arrange src/ into views/, components/, stores/, services/, utils/. Remove dead code.",
+                      done: "A new student can find any file in under 10 seconds." },
+                    { id: "10.2", title: "Build", from: "—",
+                      task: "Run npm run build and npm run preview. Fix every warning.",
+                      done: "The production build works like dev." },
+                    { id: "10.3", title: "Your own feature", from: "—",
+                      task: "Pick one: quantity stepper, sort by price, product reviews, dark mode.",
+                      done: "It uses props, emit and a store. Write 3 lines about your choices." },
+                    { id: "10.4", title: "Rebuild this page", from: "missions.html",
+                      task: "This missions page is plain JavaScript. Rebuild it in Vue: a MissionCard component, a v-for, a computed progress, and a watch for localStorage.",
+                      done: "Same page. Much less code. Compare the two files." },
+                ],
+            },
+        ];
+
+        const STORAGE_KEY = "brutal-merch-missions";
+        const total = sessions.reduce((n, s) => n + s.missions.length, 0);
+
+        // Mission text contains tags like <template>, so escape it before using innerHTML
+        function esc(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        function loadDone() {
+            try {
+                return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveDone(done) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(done));
+            } catch (e) { /* storage blocked: progress just will not be saved */ }
+        }
+
+        function render() {
+            const done = loadDone();
+            let count = 0;
+            let html = "";
+
+            for (const s of sessions) {
+                const doneHere = s.missions.filter((m) => done[m.id]).length;
+                html += `
+                <section>
+                    <div class="flex flex-wrap items-center gap-3 mb-4">
+                        <span class="bg-black text-white text-sm font-black px-3 py-1">SESSION ${String(s.no).padStart(2, "0")}</span>
+                        <h2 class="text-2xl font-black uppercase">${s.title}</h2>
+                        <span class="ml-auto border-2 border-black bg-white text-xs font-extrabold px-2 py-1">${doneHere} / ${s.missions.length}</span>
+                    </div>
+                    <div class="space-y-4">`;
+
+                for (const m of s.missions) {
+                    const isDone = !!done[m.id];
+                    if (isDone) count++;
+                    html += `
+                        <label class="flex gap-4 border-4 border-black p-4 shadow-brutal-sm cursor-pointer ${isDone ? "bg-black text-white" : "bg-white"}">
+                            <input type="checkbox" data-id="${m.id}" ${isDone ? "checked" : ""} class="mt-1 size-6 shrink-0 accent-brand cursor-pointer">
+                            <div class="min-w-0">
+                                <p class="flex flex-wrap items-center gap-2">
+                                    <span class="text-xs font-black text-brand">${m.id}</span>
+                                    <span class="font-black uppercase ${isDone ? "line-through" : ""}">${esc(m.title)}</span>
+                                    ${m.from === "—" ? "" : `<span class="text-xs font-bold border-2 ${isDone ? "border-white" : "border-black"} px-2">Section ${esc(m.from)}</span>`}
+                                </p>
+                                <p class="mt-2 text-sm font-medium">${esc(m.task)}</p>
+                                <p class="mt-2 text-sm font-bold"><span class="${isDone ? "bg-brand text-white" : "bg-black text-white"} px-1 uppercase text-xs">Done when</span> ${esc(m.done)}</p>
+                            </div>
+                        </label>`;
+                }
+                html += `</div></section>`;
+            }
+
+            document.getElementById("sessions").innerHTML = html;
+            document.getElementById("progress-text").textContent = `${count} / ${total}`;
+            document.getElementById("progress-bar").style.width = `${Math.round((count / total) * 100)}%`;
+        }
+
+        document.getElementById("sessions").addEventListener("change", (e) => {
+            if (!e.target.matches("input[type=checkbox]")) return;
+            const done = loadDone();
+            done[e.target.dataset.id] = e.target.checked;
+            saveDone(done);
+            render();
+        });
+
+        document.getElementById("reset").addEventListener("click", () => {
+            if (confirm("Clear all progress?")) {
+                saveDone({});
+                render();
+            }
+        });
+
+        render();
+    </script>
+</body>
+</html>
