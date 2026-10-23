@@ -4,14 +4,14 @@
 
   <div class="min-h-screen bg-paper text-black font-sans">
     <Announcement @click="annouce" />
-    <TopNav />
+    <TopNav :cart-count="cartCount" />
     <main id="top">
       <!-- <LifecycleLogger v-if="show" />
       <button @click="show = !show">Toggle logger</button> -->
       <HeroSection />
       <FilterBar />
-      <ProductSection />
-      <CartSection />
+      <ProductSection @add="addToCart" />
+      <CartSection :cart-count="cartCount" :carts="carts" @remove="removeFromCart" />
       <PerkSection />
       <FAQSection />
       <NewSletter />
@@ -47,13 +47,34 @@ export default {
   },
   data() {
     return {
-      show: false
+      carts: [
+        { name: 'Git Push Mug', price: 12.00, quantity: 1 },
+        { name: 'Dark Mode Tee', price: 22.00, quantity: 1 },
+        { name: 'Semicolon Sticker Pack', price: 4.00, quantity: 2 }
+      ]
+    }
+  },
+  computed: {
+    cartCount() {
+      return this.carts.reduce((count, cart) => count + cart.quantity, 0);
     }
   },
   methods: {
-    annouce() {
-      console.log("Hello")
-    }
+    removeFromCart(product) {
+      this.carts = this.carts.filter(cart => cart.name !== product.name);
+    },
+    addToCart(product) {
+      const existingItem = this.carts.find(item => item.name === product.name);
+      if (existingItem) {
+        existingItem.quantity = Number(existingItem.quantity) + Number(product.quantity);
+      } else {
+        this.carts.push({
+          name: product.name,
+          price: product.price,
+          quantity: 1
+        });
+      }
+    },
   }
 }
 </script>
