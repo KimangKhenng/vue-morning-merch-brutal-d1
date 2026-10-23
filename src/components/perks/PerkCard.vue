@@ -7,6 +7,6 @@
 </template>
 <script>
 export default {
-    props: ["perkNumber", "perkTitle", "perkDescription"]
+    props: ["perkNumber", "perkTitle", "perkDescription"],
 }
 </script>

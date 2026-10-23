@@ -3,7 +3,7 @@
 <template>
 
   <div class="min-h-screen bg-paper text-black font-sans">
-    <Announcement />
+    <Announcement @click="annouce" />
     <TopNav />
     <main id="top">
       <!-- <LifecycleLogger v-if="show" />
@@ -31,7 +31,6 @@ import FAQSection from '@/components/FAQSection.vue';
 import NewSletter from '@/components/NewSletter.vue';
 import FooterSection from '@/components/FooterSection.vue';
 import Announcement from '@/components/Announcement.vue';
-import LifecycleLogger from '@/components/LifecycleLogger.vue';
 
 export default {
   components: {
@@ -44,12 +43,16 @@ export default {
     FAQSection,
     NewSletter,
     Announcement,
-    FooterSection,
-    LifecycleLogger
+    FooterSection
   },
   data() {
     return {
       show: false
+    }
+  },
+  methods: {
+    annouce() {
+      console.log("Hello")
     }
   }
 }
