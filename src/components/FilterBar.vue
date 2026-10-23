@@ -6,7 +6,7 @@
         </div>
 
         <div class="bg-white border-4 border-black shadow-brutal p-4 flex flex-wrap items-center gap-4">
-            <input type="text" placeholder="Search products..."
+            <input ref="search" type="text" placeholder="Search products..."
                 class="flex-1 min-w-48 border-2 border-black bg-paper px-3 py-2 font-bold focus:outline-none focus:bg-white">
 
             <!-- 4b. CATEGORY BUTTONS (4 copies, one is "active") -->
@@ -25,3 +25,10 @@
         <p class="mt-4 text-sm font-bold uppercase">Showing 8 of 12 products</p>
     </section>
 </template>
+<script>
+export default {
+    mounted() {
+        this.$refs.search.focus()
+    }
+}
+</script>

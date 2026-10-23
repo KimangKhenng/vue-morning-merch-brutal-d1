@@ -12,10 +12,10 @@
                     Stickers, hoodies and desk gear. Thick borders. Hard shadows. No blur.
                 </p>
                 <div class="mt-8 flex flex-wrap gap-4">
-                    <a href="#products"
+                    <button @click="counter++" href="#products"
                         class="bg-white border-4 border-black shadow-brutal px-6 py-3 font-extrabold uppercase hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none">
                         Shop now
-                    </a>
+                    </button>
                     <a href="#about"
                         class="bg-black text-white border-4 border-black shadow-brutal px-6 py-3 font-extrabold uppercase hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none">
                         Learn more
@@ -25,8 +25,8 @@
 
             <!-- 3b. STAT BOXES (3 copies of the same box) -->
             <div class="grid grid-cols-3 gap-4">
-                <div class="bg-white border-4 border-black shadow-brutal p-4 text-center">
-                    <p class="text-4xl font-black">12</p>
+                <div v-if="counter < 15" class="bg-white border-4 border-black shadow-brutal p-4 text-center">
+                    <p class="text-4xl font-black">{{ counter }}</p>
                     <p class="text-xs font-extrabold uppercase mt-1">Products</p>
                 </div>
                 <div class="bg-white border-4 border-black shadow-brutal p-4 text-center">
@@ -41,3 +41,12 @@
         </div>
     </section>
 </template>
+<script>
+export default {
+    data() {
+        return {
+            counter: 12
+        }
+    }
+}
+</script>

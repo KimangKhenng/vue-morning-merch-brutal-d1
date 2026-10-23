@@ -3,40 +3,20 @@
 <template>
 
   <div class="min-h-screen bg-paper text-black font-sans">
-
-    <!-- ================= 1. ANNOUNCEMENT BAR ================= -->
     <Announcement />
-
-    <!-- ================= 2. NAVBAR ================= -->
     <TopNav />
-
     <main id="top">
-
-      <!-- ================= 3. HERO ================= -->
-
+      <!-- <LifecycleLogger v-if="show" />
+      <button @click="show = !show">Toggle logger</button> -->
       <HeroSection />
-      <!-- ================= 4. FILTER BAR ================= -->
       <FilterBar />
-
-      <!-- ================= 5. PRODUCT GRID (8 copies of the same card) ================= -->
-
       <ProductSection />
-      <!-- ================= 6. CART ================= -->
-
       <CartSection />
-      <!-- ================= 7. PERKS (3 copies of the same box) ================= -->
-
       <PerkSection />
-      <!-- ================= 8. FAQ (4 copies of the same item) ================= -->
-
       <FAQSection />
-      <!-- ================= 9. NEWSLETTER ================= -->
       <NewSletter />
     </main>
-
-    <!-- ================= 10. FOOTER (3 columns, each with a list of links) ================= -->
     <FooterSection />
-
   </div>
 </template>
 
@@ -51,6 +31,8 @@ import FAQSection from '@/components/FAQSection.vue';
 import NewSletter from '@/components/NewSletter.vue';
 import FooterSection from '@/components/FooterSection.vue';
 import Announcement from '@/components/Announcement.vue';
+import LifecycleLogger from '@/components/LifecycleLogger.vue';
+
 export default {
   components: {
     TopNav,
@@ -62,7 +44,13 @@ export default {
     FAQSection,
     NewSletter,
     Announcement,
-    FooterSection
+    FooterSection,
+    LifecycleLogger
+  },
+  data() {
+    return {
+      show: false
+    }
   }
 }
 </script>
