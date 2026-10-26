@@ -8,6 +8,7 @@
     <main id="top">
       <!-- <LifecycleLogger v-if="show" />
       <button @click="show = !show">Toggle logger</button> -->
+      <GitHubPage />
       <HeroSection />
       <FilterBar />
       <ProductSection @add="addToCart" />
@@ -31,7 +32,7 @@ import FAQSection from '@/components/FAQSection.vue';
 import NewSletter from '@/components/NewSletter.vue';
 import FooterSection from '@/components/FooterSection.vue';
 import Announcement from '@/components/Announcement.vue';
-
+import GitHubPage from '@/components/GitHubPage.vue';
 export default {
   components: {
     TopNav,
@@ -44,6 +45,7 @@ export default {
     NewSletter,
     Announcement,
     FooterSection,
+    GitHubPage
   },
 
   data() {
