@@ -33,6 +33,7 @@ import NewSletter from '@/components/NewSletter.vue';
 import FooterSection from '@/components/FooterSection.vue';
 import Announcement from '@/components/Announcement.vue';
 import GitHubPage from '@/components/GitHubPage.vue';
+import GitHubPageStarter from '@/components/GitHubPageStarter.vue';
 export default {
   components: {
     TopNav,
@@ -45,7 +46,8 @@ export default {
     NewSletter,
     Announcement,
     FooterSection,
-    GitHubPage
+    GitHubPage,
+    GitHubPageStarter
   },
 
   data() {

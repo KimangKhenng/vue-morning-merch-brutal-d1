@@ -1,4 +1,4 @@
-const API = 'https://api.github.com/users/tfd-ed/repos'
+const API = 'https://api.github.com/users/tfd-ed/repos?page=2&per_page=10'
 
 // const repos = fetch(API).then((response) => response.json()).then((data) => {
 //     console.log(data[0])
