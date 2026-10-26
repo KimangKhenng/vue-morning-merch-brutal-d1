@@ -31,6 +31,7 @@ import FAQSection from '@/components/FAQSection.vue';
 import NewSletter from '@/components/NewSletter.vue';
 import FooterSection from '@/components/FooterSection.vue';
 import Announcement from '@/components/Announcement.vue';
+import TestCompo from '@/components/TestCompo.vue';
 
 export default {
   components: {
@@ -43,7 +44,8 @@ export default {
     FAQSection,
     NewSletter,
     Announcement,
-    FooterSection
+    FooterSection,
+    TestCompo
   },
   data() {
     return {
