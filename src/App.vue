@@ -31,7 +31,6 @@ import FAQSection from '@/components/FAQSection.vue';
 import NewSletter from '@/components/NewSletter.vue';
 import FooterSection from '@/components/FooterSection.vue';
 import Announcement from '@/components/Announcement.vue';
-import TestCompo from '@/components/TestCompo.vue';
 
 export default {
   components: {
@@ -45,15 +44,16 @@ export default {
     NewSletter,
     Announcement,
     FooterSection,
-    TestCompo
   },
+
   data() {
     return {
       carts: [
         { name: 'Git Push Mug', price: 12.00, quantity: 1 },
         { name: 'Dark Mode Tee', price: 22.00, quantity: 1 },
         { name: 'Semicolon Sticker Pack', price: 4.00, quantity: 2 }
-      ]
+      ],
+
     }
   },
   computed: {
@@ -62,6 +62,7 @@ export default {
     }
   },
   methods: {
+
     removeFromCart(product) {
       this.carts = this.carts.filter(cart => cart.name !== product.name);
     },

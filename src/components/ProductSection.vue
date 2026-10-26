@@ -1,13 +1,35 @@
 <template>
     <section class="max-w-6xl mx-auto px-6 py-6">
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <ProductCard v-for="product in products" :key="product.id" :product="product" @add="addToCart" />
+        <div v-if="loading" class="max-w-full animate-pulse">
+            <div
+                class="block w-56 h-3 mb-4 font-sans text-5xl antialiased font-semibold leading-tight tracking-normal bg-gray-300 rounded-full text-inherit">
+                &nbsp;
+            </div>
+            <div
+                class="block h-2 mb-2 font-sans text-base antialiased font-light leading-relaxed bg-gray-300 rounded-full text-inherit w-72">
+                &nbsp;
+            </div>
+            <div
+                class="block h-2 mb-2 font-sans text-base antialiased font-light leading-relaxed bg-gray-300 rounded-full text-inherit w-72">
+                &nbsp;
+            </div>
+            <div
+                class="block h-2 mb-2 font-sans text-base antialiased font-light leading-relaxed bg-gray-300 rounded-full text-inherit w-72">
+                &nbsp;
+            </div>
+            <div
+                class="block h-2 mb-2 font-sans text-base antialiased font-light leading-relaxed bg-gray-300 rounded-full text-inherit w-72">
+                &nbsp;
+            </div>
         </div>
-
-        <!-- 5b. EMPTY STATE (hidden now — show it when a search finds nothing) -->
-        <p class="hidden mt-6 bg-white border-4 border-black shadow-brutal p-6 text-center font-extrabold uppercase">
+        <div v-else-if="error">{{ error }}</div>
+        <p v-else-if="products.length === 0"
+            class="hidden mt-6 bg-white border-4 border-black shadow-brutal p-6 text-center font-extrabold uppercase">
             No products match your search.
         </p>
+        <div v-else class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <ProductCard v-for="product in products" :key="product.id" :product="product" @add="addToCart" />
+        </div>
     </section>
 </template>
 <script>
@@ -17,89 +39,32 @@ export default {
     components: {
         ProductCard,
     },
+    async created() {
+        await this.loadProducts()
+    },
     data() {
         return {
-            products: [
-                {
-                    id: 1,
-                    name: 'Semicolon Sticker Pack',
-                    category: 'Stickers',
-                    price: 4.0,
-                    oldPrice: null,
-                    soldOut: false,
-                    description: '10 vinyl stickers for your laptop.',
-                },
-                {
-                    id: 2,
-                    name: 'Bug Hunter Hoodie',
-                    category: 'Apparel',
-                    price: 45.0,
-                    oldPrice: 60.0,
-                    soldOut: false,
-                    description: 'Heavy cotton. Warm for late-night fixes.',
-                },
-                {
-                    id: 3,
-                    name: 'Git Push Mug',
-                    category: 'Desk',
-                    price: 12.0,
-                    oldPrice: null,
-                    soldOut: false,
-                    description: 'Holds 350ml of coffee. Force push not included.',
-                },
-                {
-                    id: 4,
-                    name: 'Dark Mode Tee',
-                    category: 'Apparel',
-                    price: 22.0,
-                    oldPrice: null,
-                    soldOut: false,
-                    description: '100% black. Easy on the eyes.',
-                },
-                {
-                    id: 5,
-                    name: 'Ctrl+Z Mousepad',
-                    category: 'Desk',
-                    price: 15.0,
-                    oldPrice: null,
-                    soldOut: false,
-                    description: 'Large size. Undo your mistakes in style.',
-                },
-                {
-                    id: 6,
-                    name: 'Component Pin',
-                    category: 'Stickers',
-                    price: 3.5,
-                    oldPrice: null,
-                    soldOut: false,
-                    description: 'Metal pin. Small, reusable, and clean.',
-                },
-                {
-                    id: 7,
-                    name: '404 Notebook',
-                    category: 'Desk',
-                    price: 9.0,
-                    oldPrice: null,
-                    soldOut: true,
-                    description: 'Blank pages. Page not found.',
-                },
-                {
-                    id: 8,
-                    name: 'Rubber Duck Debugger',
-                    category: 'Desk',
-                    price: 8.0,
-                    oldPrice: 10.0,
-                    soldOut: false,
-                    description: 'Explain your bug to the duck. It always helps.',
-                },
-            ],
+            products: [],
+            loading: true,
+            error: "",
         }
     },
     emits: ['add'],
     methods: {
         addToCart(product) {
             this.$emit('add', product)
-        }
+        },
+        async loadProducts() {
+            this.loading = true
+            try {
+                const response = await fetch("/products.json");
+                this.products = await response.json();
+            } catch (err) {
+                this.error = err.message;   // 2. failure: keep the message
+            } finally {
+                this.loading = false
+            }
+        },
     }
 }
 </script>
