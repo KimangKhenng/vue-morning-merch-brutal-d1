@@ -24,10 +24,10 @@
         <p class="mt-4 text-sm font-bold uppercase">Showing 8 of 12 products</p>
     </section>
 </template>
-<script>
+<!-- <script>
 export default {
     mounted() {
         this.$refs.search.focus()
     }
 }
-</script>
+</script> -->
