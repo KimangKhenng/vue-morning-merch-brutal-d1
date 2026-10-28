@@ -14,6 +14,14 @@
           </RouterLink>
         </li>
         <li>
+          <RouterLink to="/contact" class="px-3 py-2 border-2 border-transparent hover:border-black">Contact
+          </RouterLink>
+        </li>
+        <li>
+          <RouterLink to="/menu" class="px-3 py-2 border-2 border-transparent hover:border-black">Menu
+          </RouterLink>
+        </li>
+        <li>
           <RouterLink to="/about" class="px-3 py-2 border-2 border-transparent hover:border-black">About</RouterLink>
         </li>
         <li>
