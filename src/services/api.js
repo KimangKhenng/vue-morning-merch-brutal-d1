@@ -20,9 +20,9 @@ async function request(path, options = {}) {
     if (!response.ok) {
         throw new Error(data?.error ?? `Request failed (${response.status})`);
     }
-    return data;
+    return data
 }
 
-export const getProducts = () => request("/products");
+export const getProducts = (page, limit) => request(`/products?page=${page}&limit=${limit}`);
 export const getProduct = (id) => request(`/products/${id}`);
 export const createOrder = (items) => request("/orders", { method: "POST", body: { items } });

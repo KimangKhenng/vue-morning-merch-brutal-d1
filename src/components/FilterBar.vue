@@ -22,8 +22,37 @@
             </div>
         </div>
         <p class="mt-4 text-sm font-bold uppercase">Showing 8 of 12 products</p>
+        <label class="flex items-center gap-2 text-sm font-bold uppercase">
+            Per page
+            <select v-model.number="pageSize"
+                class="border-2 border-black bg-white px-2 py-1 font-extrabold cursor-pointer focus:outline-none">
+                <option v-for="n in pageSizes" :key="n" :value="n">{{ n }}</option>
+            </select>
+        </label>
     </section>
 </template>
+<script>
+import { mapState, mapActions } from 'pinia';
+import { useProductStore } from '@/stores/product';
+export default {
+    data() {
+        return {
+            pageSize: 10
+        }
+    },
+    methods: {
+        ...mapActions(useProductStore, ["updatePageSize"])
+    },
+    watch: {
+        async pageSize() {
+            await this.updatePageSize(this.pageSize)
+        }
+    },
+    computed: {
+        ...mapState(useProductStore, ["pageSizes", "limit"])
+    }
+}
+</script>
 <!-- <script>
 export default {
     mounted() {
