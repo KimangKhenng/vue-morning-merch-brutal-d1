@@ -25,8 +25,8 @@
 
             <!-- 3b. STAT BOXES (3 copies of the same box) -->
             <div class="grid grid-cols-3 gap-4">
-                <div v-if="counter < 15" class="bg-white border-4 border-black shadow-brutal p-4 text-center">
-                    <p class="text-4xl font-black">{{ counter }}</p>
+                <div class="bg-white border-4 border-black shadow-brutal p-4 text-center">
+                    <p class="text-4xl font-black">{{ count }}</p>
                     <p class="text-xs font-extrabold uppercase mt-1">Products</p>
                 </div>
                 <div class="bg-white border-4 border-black shadow-brutal p-4 text-center">
@@ -42,11 +42,11 @@
     </section>
 </template>
 <script>
+import { mapState } from 'pinia';
+import { useProductStore } from '@/stores/product';
 export default {
-    data() {
-        return {
-            counter: 12
-        }
+    computed: {
+        ...mapState(useProductStore, ["count"])
     }
 }
 </script>

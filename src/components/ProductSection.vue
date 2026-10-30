@@ -33,7 +33,9 @@
     </section>
 </template>
 <script>
+import { mapActions, mapState } from 'pinia';
 import ProductCard from '@/components/products/ProductCard.vue'
+import { useProductStore } from '@/stores/product';
 
 export default {
     components: {
@@ -42,29 +44,11 @@ export default {
     async created() {
         await this.loadProducts()
     },
-    data() {
-        return {
-            products: [],
-            loading: true,
-            error: "",
-        }
+    computed: {
+        ...mapState(useProductStore, ["products"])
     },
-    emits: ['add'],
     methods: {
-        addToCart(product) {
-            this.$emit('add', product)
-        },
-        async loadProducts() {
-            this.loading = true
-            try {
-                const response = await fetch("/products.json");
-                this.products = await response.json();
-            } catch (err) {
-                this.error = err.message;   // 2. failure: keep the message
-            } finally {
-                this.loading = false
-            }
-        },
+        ...mapActions(useProductStore, ["loadProducts"])
     }
 }
 </script>
