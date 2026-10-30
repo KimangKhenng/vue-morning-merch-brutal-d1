@@ -19,7 +19,7 @@
             <div class="mt-5 pt-5 border-t-4 border-black flex flex-wrap items-center justify-between gap-4">
                 <p class="text-2xl font-black uppercase">Total: ${{ totalPrice }}</p>
                 <div class="flex gap-3">
-                    <button
+                    <button @click="clearProducts"
                         class="border-2 border-black bg-white px-4 py-2 text-sm font-extrabold uppercase cursor-pointer">Clear</button>
                     <button
                         class="border-2 border-black bg-brand text-white shadow-brutal-sm px-4 py-2 text-sm font-extrabold uppercase cursor-pointer hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none">Checkout</button>
@@ -29,27 +29,18 @@
     </section>
 </template>
 <script>
+import { mapActions, mapState } from 'pinia';
+import { useCartStore } from '@/stores/cart.js';
 import CartCard from './carts/CartCard.vue';
 export default {
     components: {
         CartCard
     },
-    props: {
-        carts: { type: Array, required: true },
-    },
-    emits: ["remove"],
     computed: {
-        totalPrice() {
-            return this.carts.reduce((total, cart) => total + (cart.price * cart.quantity), 0).toFixed(2);
-        },
-        cartCount() {
-            return this.carts.reduce((count, cart) => count + cart.quantity, 0);
-        }
+        ...mapState(useCartStore, { carts: "items", totalPrice: "total", cartCount: "count" })
     },
     methods: {
-        removeProduct(product) {
-            this.$emit('remove', product);
-        }
-    }
+        ...mapActions(useCartStore, { clearProducts: "clear", removeProduct: "remove" })
+    },
 }
 </script>

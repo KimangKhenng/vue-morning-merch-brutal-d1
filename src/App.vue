@@ -1,10 +1,9 @@
 <script setup></script>
 
 <template>
-
   <div class="min-h-screen bg-paper text-black font-sans">
-    <Announcement @click="annouce" />
-    <TopNav :cart-count="cartCount" />
+    <Announcement />
+    <TopNav />
     <main id="top">
       <RouterView />
     </main>

@@ -15,7 +15,7 @@
     <div class="p-4 flex flex-col gap-2 grow">
       <span class="self-start border-2 border-black text-xs font-bold uppercase px-2 py-0.5">{{
         product.category
-        }}</span>
+      }}</span>
       <h3 class="text-lg font-black uppercase leading-tight">{{ product.name }}</h3>
       <p class="text-sm font-medium">{{ product.description }}</p>
       <div class="mt-auto pt-3 flex items-center justify-between gap-2">
@@ -29,7 +29,7 @@
             class="border-2 border-black bg-white px-2 py-2 text-xs font-extrabold uppercase cursor-pointer">
             Go to product
           </button>
-          <button @click="$emit('add', product)" :disabled="product.soldOut"
+          <button @click="addProduct(product)" :disabled="product.soldOut"
             class="border-2 border-black px-3 py-2 text-xs font-extrabold uppercase" :class="product.soldOut
               ? 'bg-paper text-black/40 cursor-not-allowed'
               : 'bg-brand text-white shadow-brutal-sm cursor-pointer hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none'
@@ -43,11 +43,12 @@
 </template>
 
 <script>
+import { mapActions } from 'pinia';
+import { useCartStore } from '@/stores/cart';
 export default {
   props: {
     product: { type: Object, required: true },
   },
-  emits: ["add"],
   computed: {
     number() {
       return String(this.product.id).padStart(2, '0')
@@ -56,7 +57,8 @@ export default {
   methods: {
     goToProductPage() {
       this.$router.push(`/products/${this.product.id}`)
-    }
+    },
+    ...mapActions(useCartStore, { addProduct: "add" })
   }
 }
 </script>
