@@ -1,5 +1,5 @@
 <template>
-    <!-- <GitHubPage /> -->
+    <GitHubPage />
     <HeroSection />
     <FilterBar />
     <ProductSection @add="addToCart" />
@@ -16,7 +16,7 @@ import CartSection from '@/components/CartSection.vue';
 import PerkSection from '@/components/PerkSection.vue';
 import FAQSection from '@/components/FAQSection.vue';
 import NewSletter from '@/components/NewSletter.vue';
-// import GitHubPage from '@/components/GitHubPage.vue';
+import GitHubPage from '@/components/GitHubPage.vue';
 export default {
     components: {
         FilterBar,
@@ -26,7 +26,7 @@ export default {
         PerkSection,
         FAQSection,
         NewSletter,
-        // GitHubPage,
+        GitHubPage,
     },
     data() {
         return {

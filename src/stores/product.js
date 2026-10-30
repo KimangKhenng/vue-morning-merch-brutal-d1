@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-
+import { getProducts } from '@/services/api';
 export const useProductStore = defineStore('product', {
     state: () => ({
         products: [],
@@ -13,8 +13,7 @@ export const useProductStore = defineStore('product', {
         async loadProducts() {
             this.loading = true
             try {
-                const response = await fetch("/products.json");
-                this.products = await response.json();
+                this.products = await getProducts()
             } catch (err) {
                 this.error = err.message;   // 2. failure: keep the message
             } finally {
